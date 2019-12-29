@@ -172,17 +172,29 @@ describe('User Endpoints', function () {
           name: 'test name',
         }
         const expectedList = {
-          name: 'French',
+          name: 'Latin',
           total_score: 0,
           words: [
-            { original: 'entraine toi', translation: 'practice' },
-            { original: 'bonjour', translation: 'hello' },
-            { original: 'maison', translation: 'house' },
-            { original: 'développeur', translation: 'developer' },
-            { original: 'traduire', translation: 'translate' },
-            { original: 'incroyable', translation: 'amazing' },
-            { original: 'chien', translation: 'dog' },
-            { original: 'chat', translation: 'cat' },
+            { original: 'agricola', translation: 'farmer'},
+            { original: 'gladius', translation: 'sword' },
+            { original: 'aurum', translation: 'gold' },
+            { original: 'sapientia', translation: 'wisdom' },
+            { original: 'amare', translation: 'love' },
+            { original: 'videre', translation: 'see' },
+            { original: 'amicus', translation: 'friend' },
+            { original: 'pulcher', translation: 'beautiful' },
+            { original: 'laetus', translation: 'happy' },
+            { original: 'canere', translation: 'sing' },
+            { original: 'scribere', translation: 'write' },
+            { original: 'audire', translation: 'hear' },
+            { original: 'caelum', translation: 'sky' },
+            { original: 'liber', translation: 'book' },
+            { original: 'oppidum', translation: 'town' },
+            { original: 'regina', translation: 'queen' },
+            { original: 'via', translation: 'road' },
+            { original: 'domus', translation: 'house' },
+            { original: 'felix', translation: 'lucky' },
+
           ]
         }
         return supertest(app)

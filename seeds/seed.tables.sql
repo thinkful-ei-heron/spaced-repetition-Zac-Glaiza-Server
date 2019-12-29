@@ -37,9 +37,9 @@ VALUES
   (14, 1, 'liber', 'book', 15),
   (15, 1, 'oppidum', 'town', 16),
   (16, 1, 'regina', 'queen', 17),
-  (18, 1, 'via', 'road', 19),
-  (19, 1, 'domus', 'house', 20),
-  (20, 1, 'felix', 'lucky', null)
+  (17, 1, 'via', 'road', 18),
+  (18, 1, 'domus', 'house', 19),
+  (19, 1, 'felix', 'lucky', null);
 
 UPDATE "language" SET head = 1 WHERE id = 1;
 
