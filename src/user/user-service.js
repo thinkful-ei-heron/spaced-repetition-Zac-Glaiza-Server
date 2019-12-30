@@ -76,7 +76,8 @@ const UserService = {
         ['regina', 'queen', 17],
         ['via', 'road', 18],
         ['domus', 'house', 19],
-        ['felix', 'lucky', null]
+        ['felix', 'lucky', 20],
+        ['cattus', 'cat', null]
       ]
 
       const [languageHeadId] = await trx

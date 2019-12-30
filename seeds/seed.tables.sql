@@ -39,7 +39,8 @@ VALUES
   (16, 1, 'regina', 'queen', 17),
   (17, 1, 'via', 'road', 18),
   (18, 1, 'domus', 'house', 19),
-  (19, 1, 'felix', 'lucky', null);
+  (19, 1, 'felix', 'lucky', 20),
+  (20, 1, 'cattus', 'cat', null);
 
 UPDATE "language" SET head = 1 WHERE id = 1;
 
