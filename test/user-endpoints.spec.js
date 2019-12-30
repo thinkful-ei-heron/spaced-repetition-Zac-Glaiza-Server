@@ -194,7 +194,7 @@ describe('User Endpoints', function () {
             { original: 'via', translation: 'road' },
             { original: 'domus', translation: 'house' },
             { original: 'felix', translation: 'lucky' },
-
+            { original: 'cattus', translation: 'cat' }
           ]
         }
         return supertest(app)
