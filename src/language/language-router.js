@@ -90,11 +90,11 @@ languageRouter
 
       const head = list.head;
       let  { translation } = head.value;
-      let isCorrect = false;
+      let correct = false;
 
       //if guess is equal to translation in the database
       if(guess === translation) {
-        isCorrect = true;
+        correct = true;
         head.value.memory_value *=2;
         head.value.correct_count++;
         head.value.total_score++;
@@ -118,7 +118,7 @@ languageRouter
       );
 
       const nextWord = list.head.value;
-      console.log('next word', +nextWord);
+      console.log('next word', + nextWord);
 
       res.send({
         nextWord: nextWord.original,
@@ -126,8 +126,9 @@ languageRouter
         wordIncorrectCount: nextWord.incorrect_count,
         totalScore: req.language.total_score,
         answer: translation,
-        isCorrect: isCorrect
+        isCorrect: correct
       })
+      
     } catch(error) {
       next(error);
     }
