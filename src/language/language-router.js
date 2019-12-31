@@ -1,6 +1,6 @@
 const express = require('express')
 const LanguageService = require('./language-service')
-const { LinkedList } = require('../util/LinkedList')
+const { resultLL } = require('../util/LinkedList')
 const { requireAuth } = require('../middleware/jwt-auth')
 
 const languageRouter = express.Router()
@@ -108,11 +108,11 @@ languageRouter
       list.remove(head.value)
       list.insertAt(head.value, head.value.memory_value)
 
-      displayList(list); //for checking only - what list is displayed
+      // LinkedList(list); //for checking only - what list is displayed
 
       await LanguageService.updateWords(
         req.app.get('db'),
-        displayList(list),
+        list,
         req.language.id,
         req.language.total_score
       );

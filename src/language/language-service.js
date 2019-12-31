@@ -40,6 +40,7 @@ const LanguageService = {
         'correct_count as wordCorrectCount',
         'incorrect_count as wordIncorrectCount',
         'total_score as totalScore', 
+        'next'
       )
       .where('word.id', head)
       .leftJoin('language', 
@@ -51,12 +52,14 @@ const LanguageService = {
   populateLinkedList(list, language) {
     let sll = new LinkedList();
     let currNode = list.find(c => c.id === language.head);
-    sll.insertLast(currNode);
-    console.log(currNode);
+    console.log('curr Node' + currNode.value);
 
-    while(currNode !==null ) {
-      console.log('original'+ currNode.value.original)
-      console.log('translation'+ currNode.value.translation)
+    sll.insertLast(currNode);
+    
+
+    while(currNode !==null && currNode !== undefined) {
+      console.log('original :'+ currNode.original)
+      console.log('translation :'+ currNode.translation)
       currNode = list.find(c => c.id === currNode.next);
       sll.insertLast(currNode);
     }
@@ -71,7 +74,7 @@ const LanguageService = {
           .where({ id: language_id})
           .update({
             total_score: score,
-            head: list[0].id
+            head: list.head.id
           }),
           
           ...list.map((word, idx) => {
