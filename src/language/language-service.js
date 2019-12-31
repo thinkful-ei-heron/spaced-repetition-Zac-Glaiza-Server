@@ -36,6 +36,7 @@ const LanguageService = {
       .from('word')
       .select(
         'original as nextWord',
+        'translation',
         'correct_count as wordCorrectCount',
         'incorrect_count as wordIncorrectCount',
         'total_score as totalScore', 
