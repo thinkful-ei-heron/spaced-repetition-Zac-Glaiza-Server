@@ -1,3 +1,5 @@
+const { LinkedList } = require('../util/LinkedList');
+
 const LanguageService = {
   getUsersLanguage(db, user_id) {
     return db
@@ -45,7 +47,26 @@ const LanguageService = {
       )
   },
 
-  
+  populateLinkedList(list, language) {
+    let sll = new LinkedList();
+    let currNode = list.find(c => c.id === language.head);
+    sll.insertLast(currNode);
+    console.log(currNode);
+
+    while(currNode !==null ) {
+      console.log('original'+ currNode.value.original)
+      console.log('translation'+ currNode.value.translation)
+      currNode = list.find(c => c.id === currNode.next);
+      sll.insertLast(currNode);
+    }
+
+    return sll;
+  },
+
+  updateWords(db, list, language_id, score){
+
+  }
+
 }
 
 module.exports = LanguageService

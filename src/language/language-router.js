@@ -1,5 +1,6 @@
 const express = require('express')
 const LanguageService = require('./language-service')
+const { LinkedList } = require('../util/LinkedList')
 const { requireAuth } = require('../middleware/jwt-auth')
 
 const languageRouter = express.Router()
@@ -46,8 +47,6 @@ languageRouter
 
 languageRouter
   .get('/head', async (req, res, next) => {
-    // implement me
-    // res.send('implement me!')
     try {
       const nextWord = await LanguageService.getNextWord(
         req.app.get('db'),
@@ -63,14 +62,57 @@ languageRouter
 
 languageRouter
   .post('/guess', jsonBodyParser, async (req, res, next) => {
-    // implement me
-    // res.send('implement me!')
     const { guess }  = req.body;
 
-    if(!guess){
-        return res.status(400).send({ error: `Missing 'guess' in request body`});
+    //checking if request body has the required field
+    for(const field of [ 'guess']){
+      if(!req.body[field]) {
+        return res.status(400).send({ 
+          error:  `Missing '${field}' in request body` 
+        });
+      }
     }
 
-  })
+    try {
+      const words = await LanguageService.getLanguageWords(
+        req.app.get('db'),
+        req.language.id,
+      );
+
+      console.log('words' + words);
+
+      let list = LanguageService.populateLinkedList(
+        words, 
+        req.language
+      );
+
+      console.log('list words' + list.words);
+
+      const head = list.head;
+
+      //if guess is equal to translation in the database
+      if(guess === translation) {
+        correct = true;
+        head.value.memory_value *=2;
+        head.value.correct_count++;
+        head.value.total_score++;
+      }
+      //if guess not equal to translation in the database
+      else { 
+        head.value.memory_value = 1;
+        head.value.incorrect_count++;
+      }
+
+      list.remove(head.value)
+      list.insertAt(head.value, head.value.memory_value)
+
+      displayList(list); //for checking only - what list is displayed
+
+    } catch(error) {
+      next(error);
+    }
+
+  });
+
 
 module.exports = languageRouter

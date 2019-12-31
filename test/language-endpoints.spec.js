@@ -43,8 +43,8 @@ describe.only('Language Endpoints', function () {
             db,
             testUsers,
             testLanguages,
-            testWords,
-          )
+            testWords
+          );
         })
 
         it(`responds with 404 if user doesn't have any languages`, () => {
@@ -123,7 +123,7 @@ describe.only('Language Endpoints', function () {
       )
     })
 
-    it.skip(`responds with 200 and user's languages`, () => {
+    it(`responds with 200 and user's languages`, () => {
       return supertest(app)
         .get(`/api/language/head`)
         .set('Authorization', helpers.makeAuthHeader(testUser))
@@ -155,7 +155,7 @@ describe.only('Language Endpoints', function () {
       )
     })
 
-    it.skip(`responds with 400 required error when 'guess' is missing`, () => {
+    it(`responds with 400 required error when 'guess' is missing`, () => {
       const postBody = {
         randomField: 'test random field',
       }
