@@ -43,7 +43,9 @@ const LanguageService = {
         'word.id',
         'language.head',
       )
-  }
+  },
+
+  
 }
 
 module.exports = LanguageService
