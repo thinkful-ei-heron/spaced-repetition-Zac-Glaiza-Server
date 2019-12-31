@@ -64,7 +64,33 @@ const LanguageService = {
   },
 
   updateWords(db, list, language_id, score){
+    return db.transaction(async trx => {
+      return Promise.all([
+        trx('language')
+          .where({ id: language_id})
+          .update({
+            total_score: score,
+            head: list[0].id
+          }),
+          
+          ...list.map((word, idx) => {
+              let next;
+              
+              if(idx >= list.length) {
+                word.next = null       
+              }
+              else {
+                word.next = list[idx + 1].id
+              }
 
+              return trx('word')
+              .where({ id: word.id })
+              .update({
+                ...word
+              });
+          })
+      ]);
+    }) ;
   }
 
 }

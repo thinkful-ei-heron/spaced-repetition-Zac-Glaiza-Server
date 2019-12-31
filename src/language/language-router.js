@@ -89,10 +89,12 @@ languageRouter
       console.log('list words' + list.words);
 
       const head = list.head;
+      let  { translation } = head.value;
+      let isCorrect = false;
 
       //if guess is equal to translation in the database
       if(guess === translation) {
-        correct = true;
+        isCorrect = true;
         head.value.memory_value *=2;
         head.value.correct_count++;
         head.value.total_score++;
@@ -108,6 +110,24 @@ languageRouter
 
       displayList(list); //for checking only - what list is displayed
 
+      await LanguageService.updateWords(
+        req.app.get('db'),
+        displayList(list),
+        req.language.id,
+        req.language.total_score
+      );
+
+      const nextWord = list.head.value;
+      console.log('next word', +nextWord);
+
+      res.send({
+        nextWord: nextWord.original,
+        wordCorrectCount: nextWord.correct_count,
+        wordIncorrectCount: nextWord.incorrect_count,
+        totalScore: req.language.total_score,
+        answer: translation,
+        isCorrect: isCorrect
+      })
     } catch(error) {
       next(error);
     }
