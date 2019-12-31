@@ -125,6 +125,16 @@ class LinkedList {
         //found it
         return currNode;
     }
+     //it prints the content of the list
+    printList() {
+        let curr = this.head;
+        let str = '';
+        while (curr) {
+        str += curr.value + ' ';
+        curr = curr.next;
+        }
+        console.log(str);
+    }
 }
 
 function displayList(list){

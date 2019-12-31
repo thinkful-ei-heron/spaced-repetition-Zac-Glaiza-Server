@@ -1,7 +1,7 @@
 const express = require('express')
 const LanguageService = require('./language-service')
-const { resultLL } = require('../util/LinkedList')
 const { requireAuth } = require('../middleware/jwt-auth')
+const { displayList } = require('../util/linkedList')
 
 const languageRouter = express.Router()
 const jsonBodyParser = express.json()
@@ -48,12 +48,12 @@ languageRouter
 languageRouter
   .get('/head', async (req, res, next) => {
     try {
-      const nextWord = await LanguageService.getNextWord(
+      const nextWord = await LanguageService.getHead(
         req.app.get('db'),
         req.language.head
         );
         res.status(200)
-        res.json(nextWord[0])
+        res.json({totalScore: req.language.total_score, ...nextWord})
         next();
       } catch (error) {
         next(error);
@@ -73,31 +73,33 @@ languageRouter
       }
     }
 
+    let list;
     try {
+
       const words = await LanguageService.getLanguageWords(
         req.app.get('db'),
         req.language.id,
       );
 
-      console.log('words' + words);
-
-      let list = LanguageService.populateLinkedList(
+      let list = await LanguageService.populateLinkedList(
         words, 
         req.language
       );
 
-      console.log('list words' + list.words);
+      console.log('list' + list);
 
       const head = list.head;
       let  { translation } = head.value;
       let correct = false;
 
       //if guess is equal to translation in the database
+      console.log('guess' + guess)
+      console.log('translation' + translation)
       if(guess === translation) {
         correct = true;
         head.value.memory_value *=2;
         head.value.correct_count++;
-        head.value.total_score++;
+        req.language.total_score++;
       }
       //if guess not equal to translation in the database
       else { 
@@ -106,19 +108,16 @@ languageRouter
       }
 
       list.remove(head.value)
-      list.insertAt(head.value, head.value.memory_value)
-
-      // LinkedList(list); //for checking only - what list is displayed
+      list.insertAt(head.value, head.value.memory_value + 1)
 
       await LanguageService.updateWords(
         req.app.get('db'),
-        list,
+        displayList(list),
         req.language.id,
         req.language.total_score
       );
 
       const nextWord = list.head.value;
-      console.log('next word', + nextWord);
 
       res.send({
         nextWord: nextWord.original,
@@ -127,8 +126,11 @@ languageRouter
         totalScore: req.language.total_score,
         answer: translation,
         isCorrect: correct
+
       })
-      
+      res.status(200).json(results);
+      next();
+
     } catch(error) {
       next(error);
     }
