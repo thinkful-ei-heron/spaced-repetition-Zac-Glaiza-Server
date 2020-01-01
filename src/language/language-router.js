@@ -48,12 +48,16 @@ languageRouter
 languageRouter
   .get('/head', async (req, res, next) => {
     try {
-      const nextWord = await LanguageService.getHead(
+      const nextWord = await LanguageService.getLanguageHead(
         req.app.get('db'),
-        req.language.head
+        req.language.id
         );
-        res.status(200)
-        res.json({totalScore: req.language.total_score, ...nextWord})
+        res.json({
+          nextWord: nextWord.original,
+          wordCorrectCount:  nextWord.correct_count,
+          wordIncorrectCount: nextWord.incorrect_count,
+          totalScore: nextWord.total_score
+        });
         next();
       } catch (error) {
         next(error);
@@ -73,68 +77,75 @@ languageRouter
       }
     }
 
-    let list;
-    try {
+    //getting head and total_score from getUsersLanguage
+    let { head, total_score } = await LanguageService.getUsersLanguage(
+      req.app.get('db'),
+      req.user.id,
+    )
+    // console.log('head :' + head)
 
-      const words = await LanguageService.getLanguageWords(
-        req.app.get('db'),
-        req.language.id,
-      );
+    //head is taken from getUsersLanguage
+    let headValue = await LanguageService.getWordById(req.app.get('db'), head)
+    // console.log('head value' + headValue)
 
-      let list = await LanguageService.populateLinkedList(
-        words, 
-        req.language
-      );
+    let nextWord = await LanguageService.getWordById(req.app.get('db'), headValue.next)
+    // console.log('next word :' +nextWord)
 
-      console.log('list' + list);
+    let results = {
+      nextWord: nextWord.original,
+      wordCorrectCount: nextWord.correct_count,
+      wordIncorrectCount: nextWord.incorrect_count,
+      totalScore: total_score,
+      answer: headValue.translation,
+      isCorrect: false
+    }
+    // console.log('answer :' + headValue.translation)
+    // console.log('guess :' + guess)
 
-      const head = list.head;
-      let  { translation } = head.value;
-      let correct = false;
-
-      //if guess is equal to translation in the database
-      console.log('guess' + guess)
-      console.log('translation' + translation)
-      if(guess === translation) {
-        correct = true;
-        head.value.memory_value *=2;
-        head.value.correct_count++;
-        req.language.total_score++;
-      }
-      //if guess not equal to translation in the database
-      else { 
-        head.value.memory_value = 1;
-        head.value.incorrect_count++;
-      }
-
-      list.remove(head.value)
-      list.insertAt(head.value, head.value.memory_value + 1)
-
-      await LanguageService.updateWords(
-        req.app.get('db'),
-        displayList(list),
-        req.language.id,
-        req.language.total_score
-      );
-
-      const nextWord = list.head.value;
-
-      res.send({
-        nextWord: nextWord.original,
-        wordCorrectCount: nextWord.correct_count,
-        wordIncorrectCount: nextWord.incorrect_count,
-        totalScore: req.language.total_score,
-        answer: translation,
-        isCorrect: correct
-
-      })
-      res.status(200).json(results);
-      next();
-
-    } catch(error) {
-      next(error);
+    if(guess === headValue.translation) {
+      console.log(' guess is correct')
+      results.isCorrect = true;
+      results.totalScore++;
+      headValue.correct_count++;
+      headValue.memory_value *= 2;
+    } else {
+      console.log(' guess is incorrect')
+      headValue.incorrect_count++;
+      headValue.memory_value = 1
     }
 
+    //Identifying correct placemenet of word after user guess
+    let currNode ={ ...headValue };
+    let tempNode = null;
+    let memoryVal = headValue.memory_value;
+    let nxt = 0;
+
+    while(currNode.next !== null && nxt <= memoryVal){
+      tempNode = currNode;
+      currNode = await LanguageService.getWordById(req.app.get('db'), currNode.next);
+      nxt++;
+    }
+
+    let newHead = headValue.next;
+
+    if(!currNode.next) {
+      tempNode = currNode;
+      headValue.next = null;
+    } else {
+      headValue.next = currNode.id;
+    }
+
+    tempNode.next = headValue.id;
+
+    let updateLang = { head: newHead, total_score: results.totalScore};
+    // console.log('update Language: ' + updateLang.head);
+    
+    // console.log('temp Node id: ' + tempNode.id);
+    await LanguageService.updateWords(req.app.get('db'), tempNode.id, tempNode)
+    await LanguageService.updateWords(req.app.get('db'), headValue.id, headValue)
+    await LanguageService.updateLanguage(req.app.get('db'), req.language.id, updateLang);
+  
+    res.send(results);
   });
 
 

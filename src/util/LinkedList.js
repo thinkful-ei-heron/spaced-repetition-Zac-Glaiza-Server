@@ -139,9 +139,19 @@ class LinkedList {
 
 function displayList(list){
     let currNode = list.head;
-    while (currNode !== null) {
-        console.log(currNode.value);
-        currNode = currNode.next;
+    if (currNode === null) {
+        console.log('List is empty');
+        return;
+    }
+    return displayHelper(currNode, []);
+}
+
+function displayHelper(node, arr) {
+    if(node === null) {
+        return [];
+    }
+    else {
+        return [node.value, ...displayHelper(node.next)];
     }
 }
 

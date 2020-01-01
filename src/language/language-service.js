@@ -1,5 +1,3 @@
-const { LinkedList } = require('../util/LinkedList');
-
 const LanguageService = {
   getUsersLanguage(db, user_id) {
     return db
@@ -9,10 +7,10 @@ const LanguageService = {
         'language.name',
         'language.user_id',
         'language.head',
-        'language.total_score',
+        'language.total_score'
       )
       .where('language.user_id', user_id)
-      .first()
+      .first();
   },
 
   getLanguageWords(db, language_id) {
@@ -26,98 +24,47 @@ const LanguageService = {
         'next',
         'memory_value',
         'correct_count',
-        'incorrect_count',
+        'incorrect_count'
       )
-      .orderBy('next', 'ascending')
-      .where({ language_id })
+      .where({ language_id });
   },
 
-  getHead(db, head) {
+  getLanguageHead(db, language_id) {
     return db 
       .from('word')
       .select(
         'original',
         'correct_count',
         'incorrect_count',
+        'total_score'
       )
-      .where('word.id', head)
-      .leftJoin('language', 
-        'word.id',
-        'language.head',
-      )
-      .then( word => {
-        return {
-          nextWord: word[0].original,
-          wordCorrectCount: word[0].correct_count,
-          wordIncorrectCount: word[0].incorrect_count
-        }
-      })
+      .join('language', 'language.head','=','word.id')
+      .where({ language_id })
+      .first();
   },
 
-  populateLinkedList(list, language) {
-    let sll = new LinkedList();
-    let currNode = list.find(c => c.id === language.head);
-    console.log('curr Node' + currNode.value);
-
-    sll.insertLast(currNode);
-    
-
-    while(currNode !==null && currNode !== undefined) {
-      console.log('original :'+ currNode.original)
-      console.log('translation :'+ currNode.translation)
-      currNode = list.find(c => c.id === currNode.next);
-      sll.insertLast(currNode);
-    }
-
-    return sll;
-    // let wordList = new LinkedList();
-    // wordArr.forEach(word => {
-     
-    //   wordList.insertLast(word);
-    //   wordList.printList(word.translation);
-    // });
-    // // console.log('word list' +wordList)
-    // return wordList;
+  getWordById(db, id) {
+    return db
+      .from('word')
+      .select('id', 'original', 'translation', 'memory_value', 'correct_count', ' incorrect_count', 'next')
+      .where({ id })
+      .first();
   },
 
-  getNextWord(db, id) {
+  updateWords(db, id, word){
     return db
     .from('word')
-    .select('original', 'language_id', 'correct_count', 'incorrect_count')
-    .where({ id })
-    .first()
+    .where({ id: id })
+    .update(word);
   },
 
-  updateWords(db, list, language_id, score){
-    return db.transaction(async trx => {
-      return Promise.all([
-        trx('language')
-          .where({ id: language_id})
-          .update({
-            total_score: score,
-            head: list[0].id
-          }),
-          
-          ...list.map((word, idx) => {
-              let next;
-              
-              if(idx >= list.length) {
-                word.next = null       
-              }
-              else {
-                word.next = list[idx + 1].id
-              }
-
-              return trx('word')
-              .where({ id: word.id })
-              .update({
-                ...word
-              });
-          })
-      ]);
-    }) ;
+  updateLanguage(db, langId, lang) {
+    return db
+    .from('language')
+    .where({ id: langId })
+    .update(lang);
   }
 
-}
+};
 
-module.exports = LanguageService
+module.exports = LanguageService;
