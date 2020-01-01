@@ -1,7 +1,6 @@
 const express = require('express')
 const LanguageService = require('./language-service')
 const { requireAuth } = require('../middleware/jwt-auth')
-const { displayList } = require('../util/linkedList')
 
 const languageRouter = express.Router()
 const jsonBodyParser = express.json()
@@ -77,20 +76,23 @@ languageRouter
       }
     }
 
-    //getting head and total_score from getUsersLanguage
-    let { head, total_score } = await LanguageService.getUsersLanguage(
-      req.app.get('db'),
-      req.user.id,
-    )
+    //head and total_score are needed to be use from getUsersLanguage
+    let { head, total_score } = await LanguageService.getUsersLanguage(req.app.get('db'), req.user.id)
     // console.log('head :' + head)
 
-    //head is taken from getUsersLanguage
+    //head value are results from getWordById where the head is an id that is taken from the `head` in getUsersLanguage
     let headValue = await LanguageService.getWordById(req.app.get('db'), head)
-    // console.log('head value' + headValue)
+    // console.log('head value next => ' + headValue.next)
 
+    //next word are results from getWordById where headValue.next is an id that is passed
     let nextWord = await LanguageService.getWordById(req.app.get('db'), headValue.next)
     // console.log('next word :' +nextWord)
 
+    //results needed for the response body
+    //nextWord, wordCorrectCount, wordIncorrectCount are taken from the results of nextWord from getWordById
+    //totalScore is taken from  the updated total_score from getUsersLanguage
+    //answer is taken from the headValue from getWordById
+    //isCorrect by default is false
     let results = {
       nextWord: nextWord.original,
       wordCorrectCount: nextWord.correct_count,
@@ -102,20 +104,24 @@ languageRouter
     // console.log('answer :' + headValue.translation)
     // console.log('guess :' + guess)
 
+    //checking if user guess/answer is equal to the translation
     if(guess === headValue.translation) {
-      console.log(' guess is correct')
-      results.isCorrect = true;
+      // console.log(' guess is correct')
+      results.isCorrect = true; 
       results.totalScore++;
       headValue.correct_count++;
       headValue.memory_value *= 2;
     } else {
-      console.log(' guess is incorrect')
+      // console.log(' guess is incorrect')
       headValue.incorrect_count++;
       headValue.memory_value = 1
     }
 
+    //Implementation of Linked Linked 
+    
     //Identifying correct placemenet of word after user guess
     let currNode ={ ...headValue };
+    console.log('current node' +currNode)
     let tempNode = null;
     let memoryVal = headValue.memory_value;
     let nxt = 0;
