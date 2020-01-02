@@ -46,7 +46,7 @@ Base URL = `...`
 - Chai
 - Supertest
 
-Client - Deployed in Zeit
+Client - Deployed in Zeit </br>
 Server - Deployed in Heroku 
 
 Copyright G©Z 2020
