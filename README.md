@@ -1,52 +1,52 @@
-# Spaced repetition API!
+## Project Name: Spaced-Repetition
 
-## Local dev setup
+It is a collaboration between Glaiza Wagner and Zacharia Lutz.
 
-If using user `dunder-mifflin`:
+- Live app  :   [Spaced-Repetition-Client] (...)
+- Heroku    :   [Spaced-Repetition-Server] (...)
+- GitHub    :   [Repo-Link] (...)
 
-```bash
-mv example.env .env
-createdb -U dunder-mifflin spaced-repetition
-createdb -U dunder-mifflin spaced-repetition-test
-```
+## API Endpoints
 
-If your `dunder-mifflin` user has a password be sure to set it in `.env` for all appropriate fields. Or if using a different user, update appropriately.
+The following are the request endpoints for this server:::
 
-```bash
-npm install
-npm run migrate
-env MIGRATION_DB_NAME=spaced-repetition-test npm run migrate
-```
+Base URL = `...`
 
-And `npm test` should work at this point
+- Auth Endpoints
 
-## Configuring Postgres
+    Route => /api/auth
 
-For tests involving time to run properly, configure your Postgres database to run in the UTC timezone.
+    POST /token =>
 
-1. Locate the `postgresql.conf` file for your Postgres installation.
-   1. E.g. for an OS X, Homebrew install: `/usr/local/var/postgres/postgresql.conf`
-   2. E.g. on Windows, _maybe_: `C:\Program Files\PostgreSQL\11.2\data\postgresql.conf`
-   3. E.g  on Ubuntu 18.04 probably: '/etc/postgresql/10/main/postgresql.conf'
-2. Find the `timezone` line and set it to `UTC`:
+    PUT /token =>
 
-```conf
-# - Locale and Formatting -
+- User Endpoints
+    Route => /api/user
 
-datestyle = 'iso, mdy'
-#intervalstyle = 'postgres'
-timezone = 'UTC'
-#timezone_abbreviations = 'Default'     # Select the set of available time zone
-```
+    POST / =>
 
-## Scripts
+- Language Endpoints
 
-Start the application `npm start`
+    Route => /api/language </br>
 
-Start nodemon for the application `npm run dev`
+    GET / =>
 
-Run the tests mode `npm test`
+    GET /head =>
 
-Run the migrations up `npm run migrate`
+    POST /guess =>
 
-Run the migrations down `npm run migrate -- 0`
+## Technologies
+- Node
+- Express
+- PostgreSQL
+- Bcryptjs
+- JWT
+- Morgan
+- Helmet
+- Chai
+- Supertest
+
+Client - Deployed in Zeit
+Server - Deployed in Heroku 
+
+Copyright G©Z 2020
