@@ -19,27 +19,21 @@ The following are the request endpoints for this server:::
 
 - Auth Endpoints
 
-    Route => /api/auth
-
-    &ensp;POST /token => It is a request handler for user login to receive a JWT. It verifies credentials for login.
+    &ensp;POST api/auth/token => It is a request handler for user login to receive a JWT. It verifies credentials for login.
                       
-    &ensp;PUT /token => It is a request handler for user login that allows automatic refreshing of token.
+    &ensp;PUT api/auth/token => It is a request handler for user login that allows automatic refreshing of token.
 
 - User Endpoints
 
-    Route => /api/user
-
-    &ensp;POST / => request handler for user registration/sign-up.
+    &ensp;POST /api/user => request handler for user registration/sign-up.
 
 - Language Endpoints
 
-    Route => /api/language </br>
+    &ensp;GET api/language => It is a request handler for dashboard page, homepage for logged in users. It retrieves current language for user.
 
-    &ensp;GET / => It is a request handler for dashboard page, homepage for logged in users. It retrieves current language for user.
+    &ensp;GET api/language/head => It is a request handler for rendering each larning page. It retrieves the first word for the user to learn for the specified language.
 
-    &ensp;GET /head => It is a request handler for rendering each larning page. It retrieves the first word for the user to learn for the specified language.
-
-    &ensp;POST /guess 
+    &ensp;POST api/language/guess 
     - It is a request handler for user guessing. 
     - It verifies if the user guess is equal to the translation. 
     - It uses a linked list data structure.
