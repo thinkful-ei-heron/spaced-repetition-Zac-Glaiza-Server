@@ -4,8 +4,6 @@ Use the spaced-repetition technique to learn twenty Latin words.
 
 It is a collaboration between [Glaiza Wagner](https://github.com/glaizawagner) and [Zacharia Lutz](https://github.com/zacharialutz).
 
-
-
 - [Live app](https://gz-spaced-repetition-app.now.sh)
 - [Heroku](https://glaiza-zac-spaced-rep-server.herokuapp.com)
 - [Client-repo](https://github.com/thinkful-ei-heron/spaced-repetition_Zac-Glaiza_client)
@@ -37,8 +35,8 @@ The following are the request endpoints for this server:::
     - It is a request handler for user guessing. 
     - It verifies if the user guess is equal to the translation. 
     - It uses a linked list data structure.
-    - When user guess correctly, correct count increments and memory value doubles.
-    - When user guess incorrectly, incorrect count decrements and memory value is equal 1.
+    - When user guesses correctly, correct count increments and memory value doubles.
+    - When user guesses incorrectly, incorrect count decrements and memory value is equal 1.
 
 ## Technologies
 - Node
