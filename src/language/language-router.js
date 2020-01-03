@@ -121,7 +121,7 @@ languageRouter
     
     //Identifying correct placemenet of word after user guess
     let currNode ={ ...headValue };
-    console.log('current node' +currNode)
+    // console.log('current node' +currNode)
     let tempNode = null;
     let memoryVal = headValue.memory_value;
     let nxt = 0;
