@@ -1,6 +1,6 @@
 ## Project Name: Spaced-Repetition
 
-It is a collaboration between Glaiza Wagner and Zacharia Lutz.
+It is a collaboration between [Glaiza Wagner](https://github.com/glaizawagner) and [Zacharia Lutz](https://github.com/zacharialutz).
 
 - Live app  :   [Spaced-Repetition-Client](https://gz-spaced-repetition-app.now.sh)
 - Heroku    :   [Spaced-Repetition-Server](https://glaiza-zac-spaced-rep-server.herokuapp.com)
