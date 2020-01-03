@@ -1,5 +1,6 @@
-## Project Name: Spaced-Repetition
+## Project Name: Spaced-Repetition server
 
+Use the spaced-repetition technique to learn twenty Latin words.
 It is a collaboration between Glaiza Wagner and Zacharia Lutz.
 
 - Live app  :   [Spaced-Repetition-Client](https://gz-spaced-repetition-app.now.sh)
@@ -50,4 +51,4 @@ Base URL = `https://glaiza-zac-spaced-rep-server.herokuapp.com/api`
 Client - Deployed in Zeit </br>
 Server - Deployed in Heroku 
 
-Copyright G©Z 2020
+Copyright © G&Z 2020
