@@ -15,31 +15,36 @@ It is a collaboration between [Glaiza Wagner](https://github.com/glaizawagner) a
 
 The following are the request endpoints for this server:::
 
-Base URL = `https://glaiza-zac-spaced-rep-server.herokuapp.com/api`
+[Base URL:](https://glaiza-zac-spaced-rep-server.herokuapp.com/api)
 
 - Auth Endpoints
 
     Route => /api/auth
 
-    POST /token =>
-
-    PUT /token =>
+    &ensp;POST /token => It is a request handler for user login to receive a JWT. It verifies credentials for login.
+                      
+    &ensp;PUT /token => It is a request handler for user login that allows automatic refreshing of token.
 
 - User Endpoints
 
     Route => /api/user
 
-    POST / =>
+    &ensp;POST / => request handler for user registration/sign-up.
 
 - Language Endpoints
 
     Route => /api/language </br>
 
-    GET / =>
+    &ensp;GET / => It is a request handler for dashboard page, homepage for logged in users. It retrieves current language for user.
 
-    GET /head =>
+    &ensp;GET /head => It is a request handler for rendering each larning page. It retrieves the first word for the user to learn for the specified language.
 
-    POST /guess =>
+    &ensp;POST /guess 
+    - It is a request handler for user guessing. 
+    - It verifies if the user guess is equal to the translation. 
+    - It uses a linked list data structure.
+    - When user guess correctly, correct count increments and memory value doubles.
+    - When user guess incorrectly, incorrect count decrements and memory value is equal 1.
 
 ## Technologies
 - Node
