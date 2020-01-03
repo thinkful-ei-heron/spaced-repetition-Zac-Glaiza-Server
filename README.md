@@ -1,12 +1,15 @@
 ## Project Name: Spaced-Repetition server
 
-It is a collaboration between [Glaiza Wagner](https://github.com/glaizawagner) and [Zacharia Lutz](https://github.com/zacharialutz).
-
 Use the spaced-repetition technique to learn twenty Latin words.
 
-- Live app  :   [Spaced-Repetition-Client](https://gz-spaced-repetition-app.now.sh)
-- Heroku    :   [Spaced-Repetition-Server](https://glaiza-zac-spaced-rep-server.herokuapp.com)
-- GitHub    :   [Repo-Link](https://github.com/thinkful-ei-heron/spaced-repetition_Zac-Glaiza_server)
+It is a collaboration between [Glaiza Wagner](https://github.com/glaizawagner) and [Zacharia Lutz](https://github.com/zacharialutz).
+
+
+
+- [Live app](https://gz-spaced-repetition-app.now.sh)
+- [Heroku](https://glaiza-zac-spaced-rep-server.herokuapp.com)
+- [Client-repo](https://github.com/thinkful-ei-heron/spaced-repetition_Zac-Glaiza_client)
+- [Server-Repo](https://github.com/thinkful-ei-heron/spaced-repetition_Zac-Glaiza_server)
 
 ## API Endpoints
 
