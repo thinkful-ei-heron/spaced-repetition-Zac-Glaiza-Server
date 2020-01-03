@@ -29,7 +29,7 @@ The following are the request endpoints for this server:::
 
     &ensp;GET api/language => It is a request handler for dashboard page, homepage for logged in users. It retrieves current language for user.
 
-    &ensp;GET api/language/head => It is a request handler for rendering each larning page. It retrieves the first word for the user to learn for the specified language.
+    &ensp;GET api/language/head => It is a request handler for rendering each learning page. It retrieves the first word for the user to learn for the specified language.
 
     &ensp;POST api/language/guess 
     - It is a request handler for user guessing. 
